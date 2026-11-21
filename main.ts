@@ -19,6 +19,13 @@ const LINES = [
   "slow, all the way through.",
 ];
 
+const TEXT = LINES.join("\n") + "\n";
+// Self-gate: the competition refuses any entry.txt outside 1–280
+// characters, so fail loudly here instead of shipping a bad file.
+if (TEXT.length < 1 || TEXT.length > 280) {
+  throw new Error(`entry.txt must be 1-280 characters, got ${TEXT.length}`);
+}
+
 const outDir = process.env.MAKEFUN_OUTPUT_DIR ?? "/output";
 mkdirSync(outDir, { recursive: true });
-writeFileSync(join(outDir, "entry.txt"), LINES.join("\n") + "\n", "utf8");
+writeFileSync(join(outDir, "entry.txt"), TEXT, "utf8");
